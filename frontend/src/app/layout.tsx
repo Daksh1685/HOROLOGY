@@ -17,7 +17,8 @@ export const metadata: Metadata = {
   title: "HOROLOGY | Luxury Watches",
   description: "Discover the finest luxury timepieces from world-renowned houses.",
   icons: {
-    icon: "/horology-favicon.png",
+    icon: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 };
 

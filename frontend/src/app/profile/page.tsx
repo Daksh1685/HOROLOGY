@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LogOut, User, Mail, Shield, Clock, Edit2, Check, X, Camera, Lock, Eye, EyeOff, Heart, ExternalLink } from "lucide-react";
 import Link from 'next/link';
+import { API_BASE_URL } from "@/lib/api";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function ProfilePage() {
 
     try {
       // Fetch Identity
-      const userRes = await fetch("http://localhost:5005/user/me", {
+      const userRes = await fetch(`${API_BASE_URL}/user/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const userData = await userRes.json();
@@ -52,7 +53,7 @@ export default function ProfilePage() {
         });
 
         // Fetch Favorites
-        const favRes = await fetch("http://localhost:5005/user/favorites", {
+        const favRes = await fetch(`${API_BASE_URL}/user/favorites`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const favData = await favRes.json();
@@ -81,7 +82,7 @@ export default function ProfilePage() {
       const body: any = { ...formData };
       if (!body.password) delete body.password;
 
-      const res = await fetch("http://localhost:5005/user/me", {
+      const res = await fetch(`${API_BASE_URL}/user/me`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
