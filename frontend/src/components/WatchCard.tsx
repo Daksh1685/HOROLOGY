@@ -1,18 +1,30 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-const LUXURY_IMAGES = [
-  "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=800",
-  "https://images.unsplash.com/photo-1587836374828-cb433947ca7f?q=80&w=800",
-  "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?q=80&w=800",
-  "https://images.unsplash.com/photo-1524592094714-cb9c5a4d5d34?q=80&w=800",
-  "https://images.unsplash.com/photo-1594534475808-b18fc33b045e?q=80&w=800",
-  "https://images.unsplash.com/photo-1622434641406-a158123450f9?q=80&w=800",
+const BRAND_IMAGES: Record<string, string> = {
+  "Omega": "/omega-speedmaster.jpg",
+  "Patek Philippe": "/patek-nautilus.png",
+  "Rolex": "/rolex-submariner.jpg",
+  "Audemars Piguet": "/ap-jumbo.jpg",
+  "Vacheron Constantin": "/vc-overseas.jpg",
+  "Richard Mille": "/rm-67.jpg",
+};
+
+const FALLBACK_IMAGES = [
+  "/omega-speedmaster.jpg",
+  "/patek-nautilus.png",
+  "/rolex-submariner.jpg",
+  "/ap-jumbo.jpg",
+  "/vc-overseas.jpg",
+  "/rm-67.jpg",
 ];
 
 export default function WatchCard({ watch, index }: { watch: any, index: number }) {
-  // If the backend watch doesn't have an image, cycle through our gorgeous high-res luxury fallbacks
-  const displayImage = watch.image || LUXURY_IMAGES[index % LUXURY_IMAGES.length];
+  // Use brand-specific image, then any attached image, then cycle through local fallbacks
+  const displayImage = 
+    BRAND_IMAGES[watch.brand] || 
+    watch.image || 
+    FALLBACK_IMAGES[index % FALLBACK_IMAGES.length];
 
   return (
     <motion.div 
@@ -27,7 +39,7 @@ export default function WatchCard({ watch, index }: { watch: any, index: number 
         <img 
           src={displayImage} 
           alt={watch.name || 'Luxury Watch'} 
-          onError={(e) => { e.currentTarget.src = LUXURY_IMAGES[0] }}
+          onError={(e) => { e.currentTarget.src = FALLBACK_IMAGES[index % FALLBACK_IMAGES.length] }}
           className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-out"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-50" />
