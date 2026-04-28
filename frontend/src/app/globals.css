@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@source "../components";
+
+@theme {
+  --color-brand-gold: #cfa864;
+  --color-brand-light: #fdfbf7;
+  --color-brand-dark: #1a1a1a;
+  --color-glass-dark: rgba(255, 255, 255, 0.6);
+  --color-glass-light: rgba(255, 255, 255, 0.4);
+
+  --font-inter: var(--font-inter);
+  --font-outfit: var(--font-outfit);
+  --font-cormorant: var(--font-cormorant);
+}
+
+:root {
+  --background: #fdfbf7;
+  --foreground: #1a1a1a;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+}
+
+@utility glass {
+  background-color: var(--color-glass-light);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@utility glass-dark {
+  background-color: var(--color-glass-dark);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+}
+
+@utility text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #1a1a1a, #555555);
+}
+
+@utility text-gold-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #cfa864, #a68345);
+}
