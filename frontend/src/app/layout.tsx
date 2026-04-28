@@ -16,10 +16,6 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "HOROLOGY | Luxury Watches",
   description: "Discover the finest luxury timepieces from world-renowned houses.",
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/favicon.ico",
-  },
 };
 
 export default function RootLayout({
