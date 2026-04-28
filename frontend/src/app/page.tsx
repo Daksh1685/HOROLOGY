@@ -8,7 +8,17 @@ import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import { API_BASE_URL } from "@/lib/api";
 
-// Mock Fallback Data in case API fails
+// Local image map — always use these for homepage featured watches
+const BRAND_IMAGE_MAP: Record<string, string> = {
+  "Omega": "/omega-speedmaster.jpg",
+  "Patek Philippe": "/patek-nautilus.png",
+  "Rolex": "/rolex-submariner.jpg",
+  "Audemars Piguet": "/ap-jumbo.jpg",
+  "Vacheron Constantin": "/vc-overseas.jpg",
+  "Richard Mille": "/rm-67.jpg",
+};
+
+// Static fallback data in case API is unreachable
 const FALLBACK_WATCHES = [
   { id: 1, name: "Speedmaster Moonwatch Professional", brand: "Omega", price: 72000, image: "/omega-speedmaster.jpg" },
   { id: 2, name: "Nautilus Heritage", brand: "Patek Philippe", price: 145000, image: "/patek-nautilus.png" },
@@ -28,22 +38,11 @@ export default function Home() {
         if (data.success && data.data && data.data.length > 0) {
           const apiWatches = data.data.map((w: any) => ({
             ...w,
-            image: w.name?.toLowerCase().includes('speedmaster')
-              ? "/omega-speedmaster.jpg"
-              : w.name?.toLowerCase().includes('nautilus')
-                ? "/patek-nautilus.png"
-                : w.name?.toLowerCase().includes('submariner')
-                  ? "/rolex-submariner.jpg"
-                  : w.brand === 'Audemars Piguet'
-                    ? "/ap-jumbo.jpg"
-                    : w.brand === 'Vacheron Constantin'
-                      ? "/vc-overseas.jpg"
-                      : w.brand === 'Richard Mille'
-                        ? "/rm-67.jpg"
-                        : w.image || w.images?.[0]?.url
+            // Always use local image map — never rely on external URLs
+            image: BRAND_IMAGE_MAP[w.brand] || FALLBACK_WATCHES[0].image,
           }));
 
-          // Force the preferred order
+          // Sort to show Omega, Patek, Rolex first
           const sorted = [...apiWatches].sort((a, b) => {
             const indexA = PREFERRED_ORDER.indexOf(a.brand);
             const indexB = PREFERRED_ORDER.indexOf(b.brand);
@@ -53,7 +52,7 @@ export default function Home() {
           setWatches(sorted.slice(0, 3));
         }
       })
-      .catch(err => console.log("Backend not reachable or empty. Using fallback watches.", err));
+      .catch(() => {});
   }, []);
 
   return (

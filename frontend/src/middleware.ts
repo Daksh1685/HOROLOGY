@@ -5,18 +5,18 @@ export function middleware(request: NextRequest) {
   const authCookie = request.cookies.get('horology_auth');
   const { pathname } = request.nextUrl;
 
-  // Define protected paths (require login)
-  const protectedPaths = ['/profile', '/collection'];
-  const isProtectedPath = protectedPaths.some(path => pathname.startsWith(path));
+  // Public paths that don't require login
+  const publicPaths = ['/', '/login', '/signup'];
+  const isPublicPath = publicPaths.includes(pathname);
 
-  // If path is protected and no auth cookie, redirect to login with callbackUrl
-  if (isProtectedPath && !authCookie) {
+  // If not a public path and no auth cookie → redirect to login
+  if (!isPublicPath && !authCookie) {
     const url = new URL('/login', request.url);
     url.searchParams.set('callbackUrl', pathname);
     return NextResponse.redirect(url);
   }
 
-  // If path is login/signup and auth cookie exists, redirect to collection
+  // If already logged in and trying to access login/signup → redirect to collection
   if ((pathname === '/login' || pathname === '/signup') && authCookie) {
     const callbackUrl = request.nextUrl.searchParams.get('callbackUrl') || '/collection';
     return NextResponse.redirect(new URL(callbackUrl, request.url));
@@ -27,9 +27,13 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/profile/:path*',
-    '/collection/:path*',
-    '/login',
-    '/signup',
+    /*
+     * Match all paths EXCEPT:
+     * - _next/static (static files)
+     * - _next/image (image optimization)
+     * - favicon.ico
+     * - public files with extensions (images, fonts, etc.)
+     */
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|otf)).*)',
   ],
 };
