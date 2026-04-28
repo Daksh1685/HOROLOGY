@@ -3,6 +3,7 @@ import { Inter, Outfit, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BackendWakeup from "@/components/BackendWakeup";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -31,6 +32,7 @@ export default function RootLayout({
         <script src="https://accounts.google.com/gsi/client" async defer></script>
       </head>
       <body className="min-h-full flex flex-col bg-[#050505] text-gray-200">
+        <BackendWakeup />
         <Navbar />
         <main className="grow">{children}</main>
         <Footer />

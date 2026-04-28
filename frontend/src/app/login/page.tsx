@@ -66,11 +66,15 @@ function LoginForm() {
 
   const handleGoogleCallback = async (response: any) => {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
       const res = await fetch(`${API_BASE_URL}/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ credential: response.credential }),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
       const data = await res.json();
       if (data.success) {
         if (data.data.needsPassword) {
@@ -83,9 +87,15 @@ function LoginForm() {
           router.push(callbackUrl);
           setTimeout(() => window.location.reload(), 100);
         }
+      } else {
+        alert(data.message || "Google authentication failed. Please try again.");
       }
-    } catch (err) {
-      alert("Google sync failed.");
+    } catch (err: any) {
+      if (err.name === "AbortError") {
+        alert("Server is waking up. Please wait 10 seconds and try again.");
+      } else {
+        alert("Google sync failed. Please try again.");
+      }
     }
   };
 
