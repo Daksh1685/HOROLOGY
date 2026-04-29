@@ -4,13 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import WatchCard from "@/components/WatchCard";
 import { ChevronDown } from "lucide-react";
+import { API_BASE_URL } from "@/lib/api";
 
 const FALLBACK_WATCHES = [
-  { id: 1, name: "Speedmaster Moonwatch Professional", brand: "Omega", price: 72000, image: "/omega-speedmaster.jpg" },
-  { id: 2, name: "Nautilus Heritage", brand: "Patek Philippe", price: 145000, image: "/patek-nautilus.png" },
-  { id: 3, name: "Submariner 'Diamond' Date", brand: "Rolex", price: 68500, image: "/rolex-submariner.jpg" },
-  { id: 5, name: "Lange 1", brand: "A. Lange & Söhne", price: 42000, image: "https://images.unsplash.com/photo-1594534475808-b18fc33b045e?q=80&w=800" },
-  { id: 6, name: "Tank Louis", brand: "Cartier", price: 13500, image: "https://images.unsplash.com/photo-1622434641406-a158123450f9?q=80&w=800" },
+  { _id: "1", name: "Speedmaster Moonwatch Professional", brand: "Omega", price: 72000, image: "/omega-speedmaster.jpg" },
+  { _id: "2", name: "Nautilus Heritage", brand: "Patek Philippe", price: 145000, image: "/patek-nautilus.png" },
+  { _id: "3", name: "Submariner 'Diamond' Date", brand: "Rolex", price: 68500, image: "/rolex-submariner.jpg" },
 ];
 
 const SORT_OPTIONS = [
@@ -29,7 +28,7 @@ export default function CollectionPage() {
   const sortRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5005/watches")
+    fetch(`${API_BASE_URL}/watches`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data && data.data.length > 0) {
