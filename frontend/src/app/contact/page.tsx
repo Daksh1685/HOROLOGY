@@ -25,14 +25,21 @@ export default function ContactPage() {
     };
 
     try {
-      await fetch(`${API_BASE_URL}/inquiry`, {
+      const res = await fetch(`${API_BASE_URL}/inquiry`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      setSubmitted(true);
-    } catch (err) {
+      const result = await res.json();
+      
+      if (res.ok && result.success) {
+        setSubmitted(true);
+      } else {
+        alert(result.message || "Failed to send message. Please try again later.");
+      }
+    } catch (err: any) {
       console.error(err);
+      alert(err.message || "Failed to send message. Please check your connection.");
     } finally {
       setLoading(false);
     }
