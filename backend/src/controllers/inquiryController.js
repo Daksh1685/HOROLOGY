@@ -14,15 +14,13 @@ exports.sendInquiry = async (req, res) => {
       host: 'smtp.gmail.com',
       port: 465,
       secure: true, // use SSL
+      family: 4, // FORCE IPv4 to fix Render ENETUNREACH errors on IPv6
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
       },
-      connectionTimeout: 10000, // 10 seconds
-      greetingTimeout: 10000,
+      connectionTimeout: 10000,
       socketTimeout: 10000,
-      logger: true,
-      debug: true
     });
 
     const mailOptions = {
