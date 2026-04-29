@@ -11,7 +11,9 @@ exports.sendInquiry = async (req, res) => {
     // Configure the transporter
     // Note: For Gmail, you should use an App Password
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // use SSL
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -68,9 +70,6 @@ exports.sendInquiry = async (req, res) => {
     res.status(200).json({ success: true, message: 'Inquiry submitted successfully' });
   } catch (error) {
     console.error('Inquiry submission error:', error);
-    if (error.code === 'EAUTH') {
-      console.error('SMTP Authentication Error: Please ensure you are using a Gmail App Password, not your regular password.');
-    }
-    res.status(500).json({ success: false, message: 'Internal server error during inquiry submission' });
+    res.status(500).json({ success: false, message: `Mail Error: ${error.message}` });
   }
 };
