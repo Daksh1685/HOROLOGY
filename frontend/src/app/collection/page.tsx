@@ -19,8 +19,8 @@ const SORT_OPTIONS = [
 ];
 
 export default function CollectionPage() {
-  const [watches, setWatches] = useState(FALLBACK_WATCHES);
-  const [filteredWatches, setFilteredWatches] = useState(FALLBACK_WATCHES);
+  const [watches, setWatches] = useState<any[]>(FALLBACK_WATCHES);
+  const [filteredWatches, setFilteredWatches] = useState<any[]>(FALLBACK_WATCHES);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All Makes");
   const [sortBy, setSortBy] = useState(SORT_OPTIONS[0]);
@@ -67,7 +67,11 @@ export default function CollectionPage() {
     } else if (sortBy.value === "price-low") {
       updated.sort((a, b) => (a.price || 0) - (b.price || 0));
     } else {
-      updated.sort((a, b) => (b.id || 0) - (a.id || 0));
+      updated.sort((a, b) => {
+        const idA = String(a._id || a.id || "");
+        const idB = String(b._id || b.id || "");
+        return idB.localeCompare(idA);
+      });
     }
 
     setFilteredWatches(updated);
@@ -176,7 +180,7 @@ export default function CollectionPage() {
             <AnimatePresence mode="popLayout">
               {filteredWatches.map((watch, i) => (
                 <motion.div
-                  key={watch.id || i}
+                  key={watch._id || watch.id || i}
                   layout
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
