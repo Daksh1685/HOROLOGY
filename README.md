@@ -1,10 +1,10 @@
-# 🕰️ Horology
+#  Horology
 
-Horology is a full-stack luxury watch showroom. It provides a premium, dark-themed digital experience for viewing and inquiring about exclusive timepieces.
+Horology is a full-stack luxury watch showroom. It provides a premium, digital experience for viewing and inquiring about exclusive timepieces.
 
 ---
 
-## ✨ Features
+## Features
 
 - **Premium Interface:** A dark-themed aesthetic with smooth animations.
 - **Interactive 3D Showroom:** View interactive 3D models of luxury watches right in your browser using **Three.js**.
@@ -14,7 +14,7 @@ Horology is a full-stack luxury watch showroom. It provides a premium, dark-them
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 **Frontend:**
 - **Next.js 15 & React 19** - Core framework
@@ -32,7 +32,7 @@ Horology is a full-stack luxury watch showroom. It provides a premium, dark-them
 
 ---
 
-## 🚀 Getting Started Locally
+## Getting Started Locally
 
 ### 1. Backend Setup
 ```bash
